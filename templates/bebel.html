@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'default.css') }}">
+    </head>
+    <body>
+        {% if html_code %}
+        {{ html_code|safe }}
+        {% else %}
+        <form action="{{ url_for('bebel') }}" method="POST">
+            code:<br>
+            <textarea name="code" cols="150" rows="20"></textarea>
+            <br>
+            language:<br>
+            <input type="text" name="language" value="C">
+            <br><br>
+            <input type="submit" value="Save">
+        </form>
+        {% endif %}
+    </body>
+</html>
