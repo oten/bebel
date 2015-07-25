@@ -39,4 +39,4 @@ def bebel(id=None):
             html_code=highlight(data['code'], get_lexer_by_name(data['language']), HtmlFormatter()))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8000)
