@@ -10,12 +10,16 @@
         {{ html_code|safe }}
         {% else %}
         <form action="{{ url_for('bebel') }}" method="POST">
-            code:<br>
+            code:
+            <br>
             <textarea name="code" cols="150" rows="20"></textarea>
             <br>
-            language:<br>
-            <input type="text" name="language" value="C">
-            <br><br>
+            <select name="language">
+            {% for lexer in lexers %}
+                <option value="{{ lexer[0] }}">{{ lexer[0] }}</option>
+            {% endfor %}
+            </select>
+            <br>
             <input type="submit" value="Save">
         </form>
         {% endif %}

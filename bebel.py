@@ -3,7 +3,7 @@ from subprocess import call, Popen, PIPE
 import json
 
 from pygments import highlight
-from pygments.lexers import get_lexer_by_name
+from pygments.lexers import get_lexer_by_name, get_all_lexers
 from pygments.formatters import HtmlFormatter
 
 app = Flask(__name__)
@@ -23,7 +23,10 @@ def bebel(id=None):
         return redirect(url_for('bebel', id=int(output) ))
     
     elif id == None:
-        return render_template('bebel.html', html_code='')
+        lexers = [lexer for lexer in get_all_lexers()]
+        lexers.sort(key=lambda x : x[0])
+        return render_template('bebel.html', html_code='', 
+        lexers=lexers )
     
     else:
         p = Popen([db, '%d' % id], stdout=PIPE, stderr=PIPE)
@@ -32,7 +35,7 @@ def bebel(id=None):
             data = json.loads(data)
         else:
             data = {'code': '', 'language':'c'}
-        return render_template('bebel.html',  
+        return render_template('bebel.html', lexers = [],  
             html_code=highlight(data['code'], get_lexer_by_name(data['language']), HtmlFormatter()))
 
 if __name__ == '__main__':
