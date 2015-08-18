@@ -45,9 +45,9 @@ def new_tag():
         for k, v in data.items():
             if not v:
                 continue
+            lst = v.split(', ')
             for i in lst:
                 tags[i] = list()
-            lst = v.split(', ')
             tags[k] = lst
         return redirect(url_for('bebel'))
     else:
