@@ -46,9 +46,10 @@ def new_tag():
             if not v:
                 continue
             lst = v.split(', ')
-            for i in lst:
-                tags[i] = list()
             tags[k] = lst
+            for i in lst:
+                if not tags[i]:
+                    tags[i] = list()
         return redirect(url_for('bebel'))
     else:
         return render_template('new_tag.html', tags=tags.as_dict())
