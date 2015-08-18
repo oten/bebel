@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'default.css') }}">
+    </head>
+    <body>
+        <form action="{{ url_for('new_tag') }}" method="POST">
+            {% for tag, child in tags.items() %}
+                {{ tag }} <input type="text" name="{{ tag }}" value="{{ ', '.join(child) }}"></input><br>
+            {% endfor %}
+            <input type="submit" value="Save">
+        </form>
+    </body>
+</html>
