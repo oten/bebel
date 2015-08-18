@@ -25,7 +25,7 @@ class Tags(db.Table):
     def search(self, idx):
         lst = self[idx]
         if not lst:
-            return idx
+            return [idx]
         else:
             tmp = list()
             for k in lst:
