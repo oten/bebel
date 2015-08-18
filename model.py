@@ -21,3 +21,19 @@ class Codes(db.TransversalModel):
 class Tags(db.Table):
     def __init__(self):
         super(Tags, self).__init__('tags', path='./db')
+
+    def search(self, idx):
+        lst = self[idx]
+        if not lst:
+            return idx
+        else:
+            tmp = list()
+            for k in lst:
+                v = self.search(k)
+                if type(v) == list:
+                    for i in v:
+                        tmp.append(i)
+                else:
+                    tmp.append(v)
+            return tmp
+            

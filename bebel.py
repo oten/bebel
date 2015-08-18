@@ -28,7 +28,7 @@ def bebel(idx=None):
         return redirect(url_for('bebel', idx=codes.next_idx - 1))
     
     elif idx == None:
-        return render_template('bebel.html', lexers=lexers, tags=tags.keys())
+        return render_template('bebel.html', lexers=lexers, tags=tags.search('root'))
     
     else:
         code = codes[str(idx)]
@@ -56,7 +56,9 @@ def new_tag():
 @app.route('/bebel/list/<by_tag>')
 def lst(by_tag=None):
     if by_tag and by_tag in codes.codes_of_tag:
-        lst = [codes[idx] for idx in codes.codes_of_tag[by_tag]]
+        leaf_tags = tags.search(by_tag)
+        idxs = {idx for idx in codes.codes_of_tag[tag] for tag in leaf_tags}
+        lst = [codes[idx] for idx in idxs]
         return render_template('lst.html', codes=lst)
     else:
         return redirect(url_for('bebel'))    
