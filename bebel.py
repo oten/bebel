@@ -1,42 +1,67 @@
 from flask import Flask, render_template, request, redirect, url_for
 from subprocess import call, Popen, PIPE
 import json
+import model
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name, get_all_lexers
 from pygments.formatters import HtmlFormatter
 
 app = Flask(__name__)
+codes = model.Codes()
+tags = model.Tags()
+
+lexers = [lexer for lexer in get_all_lexers()]
+lexers.sort(key=lambda x : x[0])
+
 
 @app.route('/bebel/', methods=['GET', 'POST'])
-@app.route('/bebel/<int:id>', methods=['GET', 'POST'])
-def bebel(id=None):
-    db = './db/escher.py'
+@app.route('/bebel/<int:idx>', methods=['GET', 'POST'])
+def bebel(idx=None):
+    global codes, lexers, tags
     if request.method == 'POST':
-        p = Popen([db, 'next_id'], stdout=PIPE, stderr=PIPE)
-        output, err = p.communicate()
-        if err:
-            output = '0'
-        err = call([db, 'next_id', str(int(output) + 1)])
-        err = call([db, str.strip(output), json.dumps(request.form)])
-        print url_for('bebel')
-        return redirect(url_for('bebel', id=int(output) ))
+        data = request.form.to_dict()
+        ts = {v for k, v in data.items() if k.startswith('tag_')}
+        data = {k: v for k, v in data.items() if not k.startswith('tag_')}
+        data['tags'] = ts
+        codes.add(**data)
+        return redirect(url_for('bebel', idx=codes.next_idx - 1))
     
-    elif id == None:
-        lexers = [lexer for lexer in get_all_lexers()]
-        lexers.sort(key=lambda x : x[0])
-        return render_template('bebel.html', html_code='', 
-        lexers=lexers )
+    elif idx == None:
+        return render_template('bebel.html', lexers=lexers, tags=tags.keys())
     
     else:
-        p = Popen([db, '%d' % id], stdout=PIPE, stderr=PIPE)
-        data, err = p.communicate()
-        if not err:
-            data = json.loads(data)
-        else:
-            data = {'code': '', 'language':'c'}
-        return render_template('bebel.html', lexers = [],  
-            html_code=highlight(data['code'], get_lexer_by_name(data['language']), HtmlFormatter()))
+        code = codes[str(idx)]
+        lexer = get_lexer_by_name(code.language)
+        html_code = highlight(code.code, lexer, HtmlFormatter())
+        return render_template('bebel.html', html_code=html_code)
+
+
+@app.route('/bebel/tag/new', methods=['GET', 'POST'])
+def new_tag():
+    global tags
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        for k, v in data.items():
+            lst = v.split(', ')
+            tags[k] = lst
+            for i in lst:
+                tags[i] = list()
+        return redirect(url_for('bebel'))
+    else:
+        return render_template('new_tag.html', tags=tags.as_dict())
+    
+
+@app.route('/bebel/list')
+@app.route('/bebel/list/<by_tag>')
+def lst(by_tag=None):
+    if by_tag and by_tag in codes.codes_of_tag:
+        lst = [codes[idx] for idx in codes.codes_of_tag[by_tag]]
+        return render_template('lst.html', codes=lst)
+    else:
+        return redirect(url_for('bebel'))    
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    app.run(debug=True)
+    #app.run(host='0.0.0.0', port=8000)

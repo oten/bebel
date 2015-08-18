@@ -14,6 +14,12 @@
             <br>
             <textarea name="code" cols="150" rows="20"></textarea>
             <br>
+            {% for tag in tags %}
+                <input type="checkbox" value="{{ tag }}" name="tag_{{ tag }}">{{ tag }}</input>
+            {% endfor %}
+            <br>
+            <a href="{{ url_for('new_tag') }}"> New Tag </a>
+            <br>
             <select name="language">
             {% for lexer in lexers %}
                 <option value="{{ lexer[0] }}">{{ lexer[0] }}</option>
