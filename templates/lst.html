@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'default.css') }}">
+    </head>
+    <body>
+        {% for code in codes %}
+            <a href="{{ url_for('bebel', idx=code.idx) }}">{{ code.idx }}</a>
+            {% for tag in code.tags %}
+                <a href="{{ url_for('lst', by_tag=tag) }}">{{ tag }}</a>
+            {% endfor %}
+        {% endfor %}
+    </body>
+</html>
