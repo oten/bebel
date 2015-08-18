@@ -11,6 +11,7 @@
             {% for tag in code.tags %}
                 <a href="{{ url_for('lst', by_tag=tag) }}">{{ tag }}</a>
             {% endfor %}
+            <br>
         {% endfor %}
     </body>
 </html>
