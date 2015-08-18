@@ -55,13 +55,17 @@ def new_tag():
 @app.route('/bebel/list')
 @app.route('/bebel/list/<by_tag>')
 def lst(by_tag=None):
-    if by_tag and by_tag in codes.codes_of_tag:
+    if by_tag:
         leaf_tags = tags.search(by_tag)
-        idxs = {idx for idx in codes.codes_of_tag[tag] for tag in leaf_tags}
+        idxs = set()
+        for tag in leaf_tags:
+            if tag in codes.codes_of_tag:
+                idxs.update(codes.codes_of_tag[tag])
+
         lst = [codes[idx] for idx in idxs]
         return render_template('lst.html', codes=lst)
     else:
-        return redirect(url_for('bebel'))    
+        return redirect(url_for('lst', by_tag='root'))    
 
 
 if __name__ == '__main__':
