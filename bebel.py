@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for
-from subprocess import call, Popen, PIPE
-import json
 import model
 
 from pygments import highlight
