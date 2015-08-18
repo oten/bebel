@@ -44,10 +44,10 @@ def new_tag():
         data = request.form.to_dict()
         for k, v in data.items():
             lst = v.split(', ')
-            tags[k] = lst
+            if lst:
+                tags[k] = lst
             for i in lst:
-                if i:
-                    tags[i] = list()
+                tags[i] = list()
         return redirect(url_for('bebel'))
     else:
         return render_template('new_tag.html', tags=tags.as_dict())
