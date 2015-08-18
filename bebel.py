@@ -43,9 +43,10 @@ def new_tag():
     if request.method == 'POST':
         data = request.form.to_dict()
         for k, v in data.items():
+            if not v:
+                continue
             lst = v.split(', ')
-            if lst:
-                tags[k] = lst
+            tags[k] = lst
             for i in lst:
                 tags[i] = list()
         return redirect(url_for('bebel'))
