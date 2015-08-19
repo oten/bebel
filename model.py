@@ -1,3 +1,4 @@
+#coding: utf-8
 import db
 
     
@@ -30,3 +31,17 @@ class Tags(db.Table):
                     yield j
         else:
             yield idx
+
+    def pretty_print(self, idx, offset='', last=True):
+        lst = self[idx]
+        print offset,
+        if last:
+            print " └─",
+            level = offset + "   "
+        else:
+            print " ├─",
+            level = offset + "  │"
+        print idx
+        if lst:
+            for k in lst:
+                self.pretty_print(k, level, last=(k == lst[-1]))
