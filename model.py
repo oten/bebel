@@ -24,16 +24,9 @@ class Tags(db.Table):
 
     def search(self, idx):
         lst = self[idx]
-        if not lst:
-            return [idx]
-        else:
-            tmp = list()
+        if lst:
             for k in lst:
-                v = self.search(k)
-                if type(v) == list:
-                    for i in v:
-                        tmp.append(i)
-                else:
-                    tmp.append(v)
-            return tmp
-            
+                for j in self.search(k): # yield from self.search(k)
+                    yield j
+        else:
+            yield idx
