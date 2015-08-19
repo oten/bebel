@@ -66,7 +66,7 @@ def lst(by_tag=None):
         lst = [codes[idx] for idx in idxs]
         return render_template('lst.html', codes=lst)
     else:
-        return redirect(url_for('lst', by_tag='root'))    
+        return redirect(url_for('lst', by_tag='root'))
 
 
 if __name__ == '__main__':
