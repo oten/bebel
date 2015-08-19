@@ -12,7 +12,7 @@ class Table(object):
 
             if not os.path.exists(self._file_path):
                 shutil.copyfile('./escher.py', self._file_path)
-                os.chmod(self._file_path, 0777)
+                os.chmod(self._file_path, 0o777)
     
     def __getitem__(self, key):
         return self._read(key)
