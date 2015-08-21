@@ -22,7 +22,8 @@ class Codes(db.TransversalModel):
 class Tags(db.Table):
     def __init__(self):
         super(Tags, self).__init__('tags', path='./db')
-
+        self.parent = db.Mirror(self)
+    
     def search(self, idx):
         lst = self[idx]
         if lst:
@@ -32,16 +33,21 @@ class Tags(db.Table):
         else:
             yield idx
 
-    def pretty_print(self, idx, offset='', last=True):
+    def pretty_print(self, idx, hide=set(), offset='', last=True):
         lst = self[idx]
-        print offset,
+        s = u''
+        s += offset
         if last:
-            print " └─",
-            level = offset + "   "
+            s += u" └─"
+            level = offset + u"   "
         else:
-            print " ├─",
-            level = offset + "  │"
-        print idx
+            s += u" ├─"
+            level = offset + u" │ "
+        s += idx + u"\n"
         if lst:
+            if idx in hide:
+                s += level + u"└─+\n"
+                return s
             for k in lst:
-                self.pretty_print(k, level, last=(k == lst[-1]))
+                s += self.pretty_print(k, hide=hide, offset=level, last=(k == lst[-1]))
+        return s

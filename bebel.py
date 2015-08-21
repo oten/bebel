@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
+#coding: utf-8
+from flask import Flask, render_template, request, redirect, url_for, flash
 import model
 
 from pygments import highlight
@@ -33,6 +34,20 @@ def bebel(idx=None):
         lexer = get_lexer_by_name(code.language)
         html_code = highlight(code.code, lexer, HtmlFormatter())
         return render_template('bebel.html', html_code=html_code)
+
+
+@app.route('/bebel/tags/edit')
+@app.route('/bebel/tags/edit/<root>/<hide>')
+def edit_tags(root='root', hide='none'):
+    global tags
+    flash("Olá cuzeiro!")
+    parent = list(tags.parent[root])[0] if root in tags.parent else ''
+    tree = tags.pretty_print(idx=root, hide=hide)
+    tree = tree.replace(u'└─+\n', '\n')
+    tree = tree.split('\n')[:-1]
+    tree = zip([filter(lambda x : ord(x) > 256 or x == ' ',c) for c in tree], 
+               [filter(lambda x : ord(x) < 256 and x != ' ',c) for c in tree])
+    return render_template('tags/edit.html', parent=parent, tree=tree, curr_root=root, curr_hide=hide)
 
 
 @app.route('/bebel/tag/new', methods=['GET', 'POST'])
