@@ -83,12 +83,16 @@ class TransversalModel(object):
 def Mirror(table):
     d = {}
     for k, v in table.as_dict().items():
+        if isinstance(v, basestring):
+            v = [v]
         for i in v:
             d.get(i).add(k) if d.get(i) else d.update({i: set([k])}) 
     
     def fun(self, key, value):
         for k in d:
             d[k].discard(key)
+        if isinstance(value, basestring):
+                value = [value]
         for i in value:
             d.get(i).add(key) if d.get(i) else d.update({i: set([key])})
     
