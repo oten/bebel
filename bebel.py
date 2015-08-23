@@ -58,10 +58,10 @@ def new_tag(root='root'):
 @app.route('/bebel/list')
 @app.route('/bebel/list/<by_tag>')
 def lst(by_tag=None):
+    global tags
     if by_tag:
-        leaf_tags = tags.search(by_tag)
         idxs = set()
-        for tag in leaf_tags:
+        for tag in tags.search(by_tag):
             if tag in codes.codes_of_tag:
                 idxs.update(codes.codes_of_tag[tag])
 

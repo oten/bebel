@@ -25,12 +25,11 @@ class Tags(db.Table):
 
     def search(self, idx):
         lst = self[idx]
+        yield idx
         if lst:
-            for k in lst:
+            for k in self[idx]:
                 for j in self.search(k): # yield from self.search(k)
                     yield j
-        else:
-            yield idx
 
     def pretty_print(self, idx, offset='', last=True):
         lst = self[idx]
