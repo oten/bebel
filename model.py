@@ -7,6 +7,7 @@ class Codes(db.TransversalModel):
     language = db.Table('codes_language', path='./db')
     tags = db.Table('codes_tags', path='./db')
     codes_of_tag = db.Mirror(tags)
+    codes_of_language = db.Mirror(language)
     
     def __init__(self):
         if self.code.keys():
