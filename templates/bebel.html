@@ -3,6 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'bebel.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'default.css') }}">
     </head>
     <body>
@@ -12,10 +13,12 @@
             <br>
             tags: 
             {% for tag in code.tags %}
-                <a href="{{ url_for('lst', by_tag=tag) }}"> {{ tag }}, </a> 
+                <a class="tag" href="{{ url_for('lst', by_tag=tag) }}"> {{ tag }} </a> 
             {% endfor %}
         </span>
+        <span style="font-size: 14px">
         {{ html_code|safe }}
+        </span>
         {% else %}
         <form action="{{ url_for('bebel') }}" method="POST">
             code:
