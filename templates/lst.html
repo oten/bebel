@@ -8,6 +8,7 @@
     <body>
         {% for code in codes %}
             <a class="idx" href="{{ url_for('bebel', idx=code.idx) }}">{{ code.idx }}</a>
+            <a class="language" href="{{ url_for('lst', by_tag=code.language) }}">{{ code.language }}</a>
             {% for tag in code.tags %}
                 <a class="tag" href="{{ url_for('lst', by_tag=tag) }}">{{ tag }}</a>
             {% endfor %}
