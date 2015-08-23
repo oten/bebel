@@ -37,7 +37,8 @@ def bebel(idx=None):
 
 
 @app.route('/bebel/tag/new', methods=['GET', 'POST'])
-def new_tag():
+@app.route('/bebel/tag/new/<root>', methods=['GET', 'POST'])
+def new_tag(root='root'):
     global tags
     if request.method == 'POST':
         data = request.form.to_dict()
@@ -51,7 +52,7 @@ def new_tag():
                     tags[i] = list()
         return redirect(url_for('bebel'))
     else:
-        return render_template('new_tag.html', tags=json.dumps(tags.as_dict()), root='"root"')
+        return render_template('new_tag.html', tags=json.dumps(tags.as_dict()), root=root)
     
 
 @app.route('/bebel/list')
