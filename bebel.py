@@ -20,9 +20,9 @@ def bebel(idx=None):
     global codes, lexers, tags
     if request.method == 'POST':
         data = request.form.to_dict()
-        ts = [v for k, v in data.items() if k.startswith('tag_')]
+        ts = {v for k, v in data.items() if k.startswith('tag_')}
         data = {k: v for k, v in data.items() if not k.startswith('tag_')}
-        data['tags'] = [data['language']] + ts
+        data['tags'] = ts
         codes.add(**data)
         return redirect(url_for('bebel', idx=codes.next_idx - 1))
     
