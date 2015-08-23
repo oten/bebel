@@ -58,7 +58,7 @@ def new_tag(root='root'):
 @app.route('/bebel/list')
 @app.route('/bebel/list/<by_tag>')
 def lst(by_tag=None):
-    global tags
+    global codes, tags
     if by_tag:
         idxs = set()
         if by_tag in codes.codes_of_language:
@@ -70,7 +70,8 @@ def lst(by_tag=None):
         lst = [codes[idx] for idx in idxs]
         return render_template('lst.html', codes=lst)
     else:
-        return redirect(url_for('lst', by_tag='root'))
+        lst = [codes[str(i)] for i in range(codes.next_idx)]
+        return render_template('lst.html', codes=lst)
 
 
 if __name__ == '__main__':
