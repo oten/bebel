@@ -29,7 +29,7 @@ class Tags(db.Table):
         yield idx
         if lst:
             for k in self[idx]:
-                for j in self.search(k): # yield from self.search(k)
+                for j in self.search(k): # yield from ...
                     yield j
 
     def pretty_print(self, idx, offset='', last=True):
