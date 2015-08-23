@@ -51,7 +51,7 @@ def new_tag():
                     tags[i] = list()
         return redirect(url_for('bebel'))
     else:
-        return render_template('new_tag.html', tags=json.dumps(tags.as_dict()), root='"python e django"')
+        return render_template('new_tag.html', tags=json.dumps(tags.as_dict()), root='"root"')
     
 
 @app.route('/bebel/list')
