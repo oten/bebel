@@ -3,7 +3,7 @@ import json
 import model
 
 from pygments import highlight
-from pygments.lexers import get_lexer_by_name, get_all_lexers
+from pygments.lexers import get_lexer_by_name, get_all_lexers, ClassNotFound
 from pygments.formatters import HtmlFormatter
 
 app = Flask(__name__)
@@ -31,7 +31,10 @@ def bebel(idx=None):
     
     else:
         code = codes[str(idx)]
-        lexer = get_lexer_by_name(code.language)
+        try:
+            lexer = get_lexer_by_name(code.language)
+        except ClassNotFound:
+            lexer = get_lexer_by_name('Text')
         html_code = highlight(code.code, lexer, HtmlFormatter())
         return render_template('bebel.html', html_code=html_code, code=code)
 
