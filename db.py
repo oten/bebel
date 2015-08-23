@@ -84,7 +84,7 @@ def Mirror(table):
     d = {}
     for k, v in table.as_dict().items():
         for i in v:
-            d.get(i).add(k) if d.get(i) else d.update({i: set(k)}) 
+            d.get(i).add(k) if d.get(i) else d.update({i: set([k])}) 
     
     def fun(self, key, value):
         for k in d:
