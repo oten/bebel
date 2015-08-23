@@ -33,7 +33,7 @@ def bebel(idx=None):
         code = codes[str(idx)]
         lexer = get_lexer_by_name(code.language)
         html_code = highlight(code.code, lexer, HtmlFormatter())
-        return render_template('bebel.html', html_code=html_code)
+        return render_template('bebel.html', html_code=html_code, code=code)
 
 
 @app.route('/bebel/tag/new', methods=['GET', 'POST'])

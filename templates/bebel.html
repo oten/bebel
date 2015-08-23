@@ -7,6 +7,14 @@
     </head>
     <body>
         {% if html_code %}
+        <span style="font-family:arial;font-size:15px;">
+            language: {{ code.language }}
+            <br>
+            tags: 
+            {% for tag in code.tags %}
+                <a href="{{ url_for('lst', by_tag=tag) }}"> {{ tag }}, </a> 
+            {% endfor %}
+        </span>
         {{ html_code|safe }}
         {% else %}
         <form action="{{ url_for('bebel') }}" method="POST">
