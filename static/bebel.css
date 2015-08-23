@@ -1,0 +1,36 @@
+body {
+    font-size: 20px;
+}
+
+.tag:hover { 
+    background: #ffc;
+}
+
+.tag {
+    color: #111;
+    text-decoration: none;
+    font-size: 15px;
+    border-width: 2px;
+    border-style: solid;
+    background-color: #ffa;
+    margin-right: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+
+.idx:hover { 
+    background: #fcc;
+}
+
+.idx {
+    color: #111;
+    text-decoration: none;
+    font-size: 15px;
+    border-width: 2px;
+    border-style: solid;
+    background-color: #faa;
+    margin-right: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
