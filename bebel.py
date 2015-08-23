@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+import json
 import model
 
 from pygments import highlight
@@ -44,13 +45,13 @@ def new_tag():
             if not v:
                 continue
             lst = v.split(', ')
-            tags[k] = lst
+            tags[k] = tags[k] + lst if tags[k] else lst
             for i in lst:
                 if not tags[i]:
                     tags[i] = list()
         return redirect(url_for('bebel'))
     else:
-        return render_template('new_tag.html', tags=tags.as_dict())
+        return render_template('new_tag.html', tags=json.dumps(tags.as_dict()), root='"python e django"')
     
 
 @app.route('/bebel/list')
