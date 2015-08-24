@@ -20,14 +20,13 @@ def bebel(idx=None):
     global codes, lexers, tags
     if request.method == 'POST':
         data = request.form.to_dict()
-        ts = {v for k, v in data.items() if k.startswith('tag_')}
-        data = {k: v for k, v in data.items() if not k.startswith('tag_')}
-        data['tags'] = ts
+        data['tags'] = data['tags'].split(',')[:-1]
+        print request.form.to_dict()
         codes.add(**data)
         return redirect(url_for('bebel', idx=codes.next_idx - 1))
     
     elif idx == None:
-        return render_template('bebel.html', lexers=lexers, tags=tags.search('root'))
+        return render_template('bebel.html', lexers=lexers, tags=json.dumps(tags.as_dict()))
     
     else:
         code = codes[str(idx)]

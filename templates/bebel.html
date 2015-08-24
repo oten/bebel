@@ -9,10 +9,10 @@
     <body>
         {% if html_code %}
         <span style="font-family:arial;font-size:15px;">
-            <a class="language" href="{{ url_for('lst', by_tag=code.language) }}"> {{ code.language }} </a> 
+            <a class="btn language" href="{{ url_for('lst', by_tag=code.language) }}"> {{ code.language }} </a> 
             <br>
             {% for tag in code.tags %}
-                <a class="tag" href="{{ url_for('lst', by_tag=tag) }}"> {{ tag }} </a> 
+                <a class="btn tag" href="{{ url_for('lst', by_tag=tag) }}"> {{ tag }} </a> 
             {% endfor %}
         </span>
         <span style="font-size: 14px">
@@ -23,14 +23,14 @@
             <span style="font-family:arial;font-size:15px;">code:</span>
             <br>
             <textarea name="code" cols="150" rows="20"></textarea>
+            <input name="tags" id="tags" type="text"> </input>
+            <div id="code-tags">
+            </div>
             <br>
-            {% for tag in tags %}
-                <span class="tag">
-                <input type="checkbox" value="{{ tag }}" name="tag_{{ tag }}">{{ tag }}</input>
-                </span>
-            {% endfor %}
-            <br><br>
-            <a class="tag" href="{{ url_for('new_tag') }}"> Add Tags </a>
+            <div id="option-tags" >
+            </div>
+            <br>
+            <a class="btn" href="{{ url_for('new_tag') }}"> Add Tags </a>
             <br><br>
             <select name="language">
             {% for lexer in lexers %}
@@ -41,5 +41,50 @@
             <input type="submit" value="Save">
         </form>
         {% endif %}
+        <script type="text/javascript">
+                        
+var TAGS = {{ tags | safe }};
+
+tags = document.getElementById('tags');
+tags.value = '';
+tags.hidden = true;
+
+code_tags = document.getElementById('code-tags');
+code_tags.onclick = 
+function(e) {
+    clicked_tag = e['target'].textContent;
+    clicked_tag = clicked_tag.replace('+', '').replace('-', '');
+    tags.value = tags.value.replace(clicked_tag + ', ', '');
+    code_tags.removeChild(e['target']);
+};
+
+
+option_tags = document.getElementById('option-tags');
+option_tags.innerHTML = "<span class='btn tag'>root</span>";
+
+option_tags.onclick = 
+function(e) {
+    if(e['target'].tagName == "SPAN"){
+        clicked_tag = e['target'].textContent;
+        clicked_tag = clicked_tag.replace('+', '').replace('-', '');
+        childs = TAGS[clicked_tag];
+        if(childs.length != 0) {
+            option_tags.innerHTML = "<span class='btn tag'>root</span><br>";
+            for(i in childs) {
+                child = childs[i];
+                if(TAGS[child].length != 0) {
+                    option_tags.innerHTML += "<span class='btn tag'>" + child + "</span>";
+                } else {
+                    option_tags.innerHTML += "<span class='btn tag'>+" + child + "</span>";
+                }
+            }
+        } else {
+            tags.value += clicked_tag + ', ';
+            code_tags.innerHTML += "<span class='btn tag'>-" + clicked_tag + "</span>";
+        }
+    }
+};
+
+        </script>
     </body>
 </html>
