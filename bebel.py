@@ -21,7 +21,7 @@ def bebel(idx=None):
     if request.method == 'POST':
         data = request.form.to_dict()
         data['tags'] = data['tags'].split(',')[:-1]
-        print request.form.to_dict()
+        map(str.strip, data['tags'])
         codes.add(**data)
         return redirect(url_for('bebel', idx=codes.next_idx - 1))
     
