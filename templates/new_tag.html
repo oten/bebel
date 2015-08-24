@@ -18,7 +18,7 @@ var ROOT = "{{ root }}";
 function around_key(key, offset) {
     conn = (key == ROOT)?"└─ ":"├─ ";
     return offset + "<span style='color:#fff' >_</span>" + conn + 
-                    "<span class='tag' id='" + key + "'>" + key + "</span><br>";
+                    "<span class='btn tag' id='" + key + "'>" + key + "</span><br>";
 }
 
 function plus_offset(key) {
@@ -55,11 +55,11 @@ function show_tree(tags, key, offset, last) {
 document.getElementById('tree').onclick = 
 function(e) {
     if(e['target'].tagName == 'SPAN') {
-        document.getElementById('tree').innerHTML = '<span class="tag" id="{{ root }}">-----</span>' + '<br>' + show_tree(TAGS, e.target.id, '', false);
+        document.getElementById('tree').innerHTML = '<span class="btn" id="{{ root }}">Add Tags</span>' + '<br>' + show_tree(TAGS, e.target.id, '', false);
     }
 };
 
-document.getElementById('tree').innerHTML = '<span class="tag" id="{{ root }}">-----</span>' + '<br>' + show_tree(TAGS, ROOT, '', false);
+document.getElementById('tree').innerHTML = '<span class="btn" id="{{ root }}">Add Tags</span>' + '<br>' + show_tree(TAGS, ROOT, '', false);
     </script>
 </body>
 </html>
