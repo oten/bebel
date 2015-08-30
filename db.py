@@ -9,7 +9,8 @@ class Table(object):
             raise Exception("'escher' is not a valid table name.")
         else:
             self._file_path = os.path.join(path, name + '.py')
-
+            if not os.path.exists(path):
+                os.makedirs(path)
             if not os.path.exists(self._file_path):
                 shutil.copyfile('./escher.py', self._file_path)
                 os.chmod(self._file_path, 0o777)
